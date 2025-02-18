@@ -140,6 +140,7 @@ export default function SKUHelp({
             seguida de um número:
           </p>
 
+          {/* Valores selecionados */}
           <div className="space-y-4">
             {skuStructure.map(({ prefix, name, description }) => {
               const fieldKey = getFieldKey(prefix);
@@ -170,7 +171,8 @@ export default function SKUHelp({
             })}
           </div>
 
-          <div className="mt-4 p-4 bg-gray-100 rounded">
+          {/* SKUs gerados */}
+          <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
             <h3 className="font-semibold mb-2 text-gray-900">
               SKUs que serão gerados:
             </h3>
@@ -180,6 +182,43 @@ export default function SKUHelp({
                   {sku}
                 </p>
               ))}
+            </div>
+          </div>
+
+          {/* Lista de todas as possibilidades */}
+          <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
+            <h3 className="font-semibold text-gray-900 mb-3">
+              Todas as possibilidades:
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {skuStructure.map(({ prefix, name }) => {
+                const fieldKey = getFieldKey(prefix);
+                const options = skuData[fieldKey];
+
+                return (
+                  <div key={prefix} className="space-y-1">
+                    <h4 className="text-sm font-medium text-gray-800">
+                      {prefix}: {name}
+                    </h4>
+                    <div className="text-sm text-gray-600 space-y-0.5">
+                      {options.map((option, index) => (
+                        <div key={index} className="flex gap-2">
+                          <span className="font-mono text-gray-800">
+                            {prefix}
+                            {prefix === "D"
+                              ? index
+                              : prefix === "H"
+                              ? option
+                              : index + 1}
+                          </span>
+                          <span>→</span>
+                          <span>{prefix === "H" ? `$${option}` : option}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>
