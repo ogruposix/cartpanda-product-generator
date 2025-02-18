@@ -1,6 +1,4 @@
 import * as React from "react";
-import * as AlertDialog from "@radix-ui/react-alert-dialog";
-import { cn } from "@/lib/utils";
 
 type AlertProps = {
   isOpen: boolean;
