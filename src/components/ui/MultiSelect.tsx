@@ -42,13 +42,11 @@ export function MultiSelect({
     <div className="relative">
       <label
         htmlFor={id}
-        className="block text-sm font-medium text-gray-700 mb-1"
+        className="block text-xs font-medium text-gray-700 mb-0.5 capitalize"
       >
         {label}
         {isMulti && (
-          <span className="text-xs text-gray-500 ml-1">
-            (Selecione múltiplos)
-          </span>
+          <span className="text-[10px] text-gray-500 ml-1">(múltiplos)</span>
         )}
       </label>
 
@@ -59,13 +57,13 @@ export function MultiSelect({
         aria-haspopup="listbox"
         aria-controls={`${id}-options`}
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full min-h-[42px] p-2 border border-gray-300 rounded-md bg-white cursor-pointer flex flex-wrap gap-2 items-center"
+        className="w-full min-h-[36px] px-2 py-1 border border-gray-300 rounded-md bg-white cursor-pointer flex flex-wrap gap-1.5 items-center overflow-x-auto"
       >
         {selected.length > 0 ? (
           selected.map((value) => (
             <span
               key={value}
-              className="inline-flex items-center px-2 py-1 rounded-full text-sm bg-blue-100 text-blue-800 hover:bg-blue-200 transition-colors"
+              className="inline-flex items-center px-1.5 py-0.5 rounded-full text-xs bg-blue-100 text-blue-800 hover:bg-blue-200 transition-colors whitespace-nowrap"
             >
               {options.find((opt) => opt.value === value)?.label}
               {isMulti && (
@@ -74,7 +72,7 @@ export function MultiSelect({
                     e.stopPropagation();
                     toggleOption(value);
                   }}
-                  className="ml-1 hover:text-blue-900 hover:bg-blue-300 rounded-full w-4 h-4 flex items-center justify-center transition-colors"
+                  className="ml-0.5 hover:text-blue-900 hover:bg-blue-300 rounded-full w-3.5 h-3.5 flex items-center justify-center transition-colors"
                 >
                   ×
                 </button>
@@ -82,7 +80,7 @@ export function MultiSelect({
             </span>
           ))
         ) : (
-          <span className="text-gray-400">Selecione...</span>
+          <span className="text-xs text-gray-400">Selecione...</span>
         )}
       </div>
 
@@ -95,7 +93,7 @@ export function MultiSelect({
           <div
             id={`${id}-options`}
             role="listbox"
-            className="absolute z-20 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-auto"
+            className="absolute z-20 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg max-h-48 overflow-auto"
           >
             {options.map((option) => (
               <div
@@ -103,7 +101,7 @@ export function MultiSelect({
                 role="option"
                 aria-selected={selected.includes(option.value)}
                 onClick={() => toggleOption(option.value)}
-                className={`px-4 py-2 cursor-pointer hover:bg-gray-100 ${
+                className={`px-3 py-1.5 text-sm cursor-pointer text-gray-700 hover:bg-gray-100 ${
                   selected.includes(option.value)
                     ? "bg-blue-50 text-blue-800"
                     : ""

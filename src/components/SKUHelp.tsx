@@ -1,4 +1,5 @@
 import { SKUData } from "@/types/sku";
+import { fieldLabels } from "@/utils/fieldLabels";
 
 type SKUHelpProps = {
   isOpen: boolean;
@@ -57,14 +58,38 @@ export default function SKUHelp({
   };
 
   const skuStructure = [
-    { prefix: "A", name: "Conta", description: "Identificador da conta" },
-    { prefix: "B", name: "Squad", description: "Identificador do squad" },
-    { prefix: "C", name: "Produto", description: "Identificador do produto" },
-    { prefix: "D", name: "VSL", description: "Número da VSL ou CallCenter" },
-    { prefix: "E", name: "Rede", description: "Canal de venda" },
-    { prefix: "F", name: "Tipo de Venda", description: "Modalidade da venda" },
-    { prefix: "G", name: "Kit", description: "Quantidade de produtos" },
-    { prefix: "H", name: "Preço", description: "Valor do produto" },
+    {
+      prefix: "A",
+      name: fieldLabels.conta,
+      description: "Identificador da conta",
+    },
+    {
+      prefix: "B",
+      name: fieldLabels.squad,
+      description: "Identificador do squad",
+    },
+    {
+      prefix: "C",
+      name: fieldLabels.produto,
+      description: "Identificador do produto",
+    },
+    {
+      prefix: "D",
+      name: fieldLabels.vsl,
+      description: "Número da VSL ou CallCenter",
+    },
+    { prefix: "E", name: fieldLabels.rede, description: "Canal de venda" },
+    {
+      prefix: "F",
+      name: fieldLabels.tipo_de_venda,
+      description: "Modalidade da venda",
+    },
+    {
+      prefix: "G",
+      name: fieldLabels.kit,
+      description: "Quantidade de produtos",
+    },
+    { prefix: "H", name: fieldLabels.preco, description: "Valor do produto" },
   ];
 
   // Gera todas as combinações possíveis de SKUs
@@ -100,7 +125,7 @@ export default function SKUHelp({
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div className="bg-white rounded-lg p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto">
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-bold">Composição do SKU</h2>
+          <h2 className="text-xl font-bold text-gray-900">Composição do SKU</h2>
           <button
             onClick={onClose}
             className="text-gray-500 hover:text-gray-700"
@@ -110,7 +135,7 @@ export default function SKUHelp({
         </div>
 
         <div className="space-y-6">
-          <p className="text-gray-600">
+          <p className="text-gray-800">
             O SKU é composto por 8 partes, cada uma representada por uma letra
             seguida de um número:
           </p>
@@ -124,17 +149,17 @@ export default function SKUHelp({
 
               return (
                 <div key={prefix} className="border-l-4 border-blue-500 pl-4">
-                  <h3 className="font-semibold">
+                  <h3 className="font-semibold text-gray-900">
                     {prefix}: {name}
                   </h3>
-                  <p className="text-sm text-gray-600 mb-1">{description}</p>
-                  <p className="text-sm">
+                  <p className="text-sm text-gray-700 mb-1">{description}</p>
+                  <p className="text-sm text-gray-800">
                     <span className="font-mono bg-gray-100 px-1 rounded">
                       {prefix}
                       {Array.isArray(value) ? value.join(", ") : value}
                     </span>
                     {" → "}
-                    <span className="text-blue-600">
+                    <span className="text-blue-700">
                       {Array.isArray(selectedOption)
                         ? selectedOption.join(", ")
                         : selectedOption}
@@ -146,10 +171,12 @@ export default function SKUHelp({
           </div>
 
           <div className="mt-4 p-4 bg-gray-100 rounded">
-            <h3 className="font-semibold mb-2">SKUs que serão gerados:</h3>
+            <h3 className="font-semibold mb-2 text-gray-900">
+              SKUs que serão gerados:
+            </h3>
             <div className="space-y-2">
               {generateAllSkus().map((sku, index) => (
-                <p key={index} className="font-mono">
+                <p key={index} className="font-mono text-gray-800">
                   {sku}
                 </p>
               ))}

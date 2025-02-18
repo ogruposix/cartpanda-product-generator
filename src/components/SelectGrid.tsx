@@ -2,6 +2,7 @@ import { SKUData } from "@/types/sku";
 import { useState } from "react";
 import SKUHelp from "./SKUHelp";
 import { MultiSelect } from "./ui/MultiSelect";
+import { fieldLabels } from "@/utils/fieldLabels";
 
 type FormValues = {
   conta: string;
@@ -29,21 +30,27 @@ export default function SelectGrid({
   const [isHelpOpen, setIsHelpOpen] = useState(false);
 
   return (
-    <div className="bg-white rounded-lg shadow-md p-6 text-black">
-      <div className="flex justify-between items-center mb-6">
-        <h2 className="text-xl font-semibold text-gray-700">
-          Selecione os parâmetros
-        </h2>
+    <div className="bg-white rounded-lg shadow-md p-4">
+      <div className="flex justify-between items-start gap-4 mb-4">
+        <div className="flex-1">
+          <h2 className="text-lg font-semibold text-gray-800">
+            Selecione os Parâmetros
+          </h2>
+          <p className="text-xs text-gray-600 mt-0.5 leading-tight">
+            Kits e preços são combinados em ordem. Exemplo: kits [1,3,6] e
+            preços [47,97,147] irá criar: 1/$47, 3/$97, 6/$147.
+          </p>
+        </div>
         <button
           onClick={() => setIsHelpOpen(true)}
-          className="bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-full w-8 h-8 flex items-center justify-center font-semibold transition-colors"
+          className="bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-full w-7 h-7 flex items-center justify-center font-semibold transition-colors flex-shrink-0"
           title="Ajuda sobre a composição do SKU"
         >
           ?
         </button>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
         {Object.entries(skuData).map(([key, options]) => {
           const isMultiSelect =
             key === "vsl" || key === "rede" || key === "kit" || key === "preco";
@@ -52,7 +59,7 @@ export default function SelectGrid({
             <MultiSelect
               key={key}
               id={key}
-              label={key.replace("_", " ")}
+              label={fieldLabels[key] || key.replace("_", " ")}
               options={options.map((item, index) => ({
                 value:
                   key === "preco"
