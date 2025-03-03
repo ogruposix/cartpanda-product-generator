@@ -165,13 +165,18 @@ export default function Home() {
       localStorage.setItem("tableData", JSON.stringify(updatedTableData));
 
       setProductConfig({
-        handle: "",
+        handle: productConfig.handle,
         title: "",
         description: "",
         isParentProduct: false,
       });
     }
   };
+
+  function clearTable() {
+    setTableData([]);
+    localStorage.removeItem("tableData");
+  }
 
   return (
     <div className="min-h-screen bg-gray-100 p-8">
@@ -206,6 +211,12 @@ export default function Home() {
                 className="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 transition-colors"
               >
                 Gerar CSV
+              </button>
+              <button
+                onClick={clearTable}
+                className="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition-colors"
+              >
+                Limpar Tabela
               </button>
             </div>
           </div>

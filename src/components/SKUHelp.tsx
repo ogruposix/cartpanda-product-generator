@@ -1,21 +1,19 @@
 import { SKUData } from "@/types/sku";
 import { fieldLabels } from "@/utils/fieldLabels";
+import {
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "./ui/dialog";
 
 type SKUHelpProps = {
-  isOpen: boolean;
-  onClose: () => void;
   formValues: Record<string, string | string[]>;
   skuData: SKUData;
 };
 
-export default function SKUHelp({
-  isOpen,
-  onClose,
-  formValues,
-  skuData,
-}: SKUHelpProps) {
-  if (!isOpen) return null;
-
+export default function SKUHelp({ formValues, skuData }: SKUHelpProps) {
   const getFieldKey = (prefix: string): keyof SKUData => {
     switch (prefix) {
       case "A":
@@ -122,107 +120,101 @@ export default function SKUHelp({
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white rounded-lg p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-bold text-gray-900">Composição do SKU</h2>
-          <button
-            onClick={onClose}
-            className="text-gray-500 hover:text-gray-700"
-          >
-            ✕
-          </button>
+    <DialogContent className="bg-white rounded-lg p-6 max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+      <DialogHeader>
+        <DialogTitle className="flex justify-between items-center mb-4">
+          <p className="text-xl font-bold text-gray-900">Composição do SKU</p>
+          <DialogClose className="text-gray-500 hover:text-gray-700" />
+        </DialogTitle>
+        <DialogDescription>
+          O SKU é composto por 8 partes, cada uma representada por uma letra
+          seguida de um número:
+        </DialogDescription>
+      </DialogHeader>
+
+      <div className="space-y-6">
+        {/* Valores selecionados */}
+        <div className="space-y-4">
+          {skuStructure.map(({ prefix, name, description }) => {
+            const fieldKey = getFieldKey(prefix);
+            const value = formValues[fieldKey];
+            const options = skuData[fieldKey];
+            const selectedOption = getSelectedOption(prefix, value, options);
+
+            return (
+              <div key={prefix} className="border-l-4 border-blue-500 pl-4">
+                <h3 className="font-semibold text-gray-900">
+                  {prefix}: {name}
+                </h3>
+                <p className="text-sm text-gray-700 mb-1">{description}</p>
+                <p className="text-sm text-gray-800">
+                  <span className="font-mono bg-gray-100 px-1 rounded">
+                    {prefix}
+                    {Array.isArray(value) ? value.join(", ") : value}
+                  </span>
+                  {" → "}
+                  <span className="text-blue-700">
+                    {Array.isArray(selectedOption)
+                      ? selectedOption.join(", ")
+                      : selectedOption}
+                  </span>
+                </p>
+              </div>
+            );
+          })}
         </div>
 
-        <div className="space-y-6">
-          <p className="text-gray-800">
-            O SKU é composto por 8 partes, cada uma representada por uma letra
-            seguida de um número:
-          </p>
+        {/* SKUs gerados */}
+        <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
+          <h3 className="font-semibold mb-2 text-gray-900">
+            SKUs que serão gerados:
+          </h3>
+          <div className="space-y-2">
+            {generateAllSkus().map((sku, index) => (
+              <p key={index} className="font-mono text-gray-800">
+                {sku}
+              </p>
+            ))}
+          </div>
+        </div>
 
-          {/* Valores selecionados */}
-          <div className="space-y-4">
-            {skuStructure.map(({ prefix, name, description }) => {
+        {/* Lista de todas as possibilidades */}
+        <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
+          <h3 className="font-semibold text-gray-900 mb-3">
+            Todas as possibilidades:
+          </h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {skuStructure.map(({ prefix, name }) => {
               const fieldKey = getFieldKey(prefix);
-              const value = formValues[fieldKey];
               const options = skuData[fieldKey];
-              const selectedOption = getSelectedOption(prefix, value, options);
 
               return (
-                <div key={prefix} className="border-l-4 border-blue-500 pl-4">
-                  <h3 className="font-semibold text-gray-900">
+                <div key={prefix} className="space-y-1">
+                  <h4 className="text-sm font-medium text-gray-800">
                     {prefix}: {name}
-                  </h3>
-                  <p className="text-sm text-gray-700 mb-1">{description}</p>
-                  <p className="text-sm text-gray-800">
-                    <span className="font-mono bg-gray-100 px-1 rounded">
-                      {prefix}
-                      {Array.isArray(value) ? value.join(", ") : value}
-                    </span>
-                    {" → "}
-                    <span className="text-blue-700">
-                      {Array.isArray(selectedOption)
-                        ? selectedOption.join(", ")
-                        : selectedOption}
-                    </span>
-                  </p>
+                  </h4>
+                  <div className="text-sm text-gray-600 space-y-0.5">
+                    {options.map((option, index) => (
+                      <div key={index} className="flex gap-2">
+                        <span className="font-mono text-gray-800">
+                          {prefix}
+                          {prefix === "D"
+                            ? index
+                            : prefix === "H"
+                            ? option
+                            : index + 1}
+                        </span>
+                        <span>→</span>
+                        <span>{prefix === "H" ? `$${option}` : option}</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               );
             })}
           </div>
-
-          {/* SKUs gerados */}
-          <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
-            <h3 className="font-semibold mb-2 text-gray-900">
-              SKUs que serão gerados:
-            </h3>
-            <div className="space-y-2">
-              {generateAllSkus().map((sku, index) => (
-                <p key={index} className="font-mono text-gray-800">
-                  {sku}
-                </p>
-              ))}
-            </div>
-          </div>
-
-          {/* Lista de todas as possibilidades */}
-          <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
-            <h3 className="font-semibold text-gray-900 mb-3">
-              Todas as possibilidades:
-            </h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {skuStructure.map(({ prefix, name }) => {
-                const fieldKey = getFieldKey(prefix);
-                const options = skuData[fieldKey];
-
-                return (
-                  <div key={prefix} className="space-y-1">
-                    <h4 className="text-sm font-medium text-gray-800">
-                      {prefix}: {name}
-                    </h4>
-                    <div className="text-sm text-gray-600 space-y-0.5">
-                      {options.map((option, index) => (
-                        <div key={index} className="flex gap-2">
-                          <span className="font-mono text-gray-800">
-                            {prefix}
-                            {prefix === "D"
-                              ? index
-                              : prefix === "H"
-                              ? option
-                              : index + 1}
-                          </span>
-                          <span>→</span>
-                          <span>{prefix === "H" ? `$${option}` : option}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
         </div>
       </div>
-    </div>
+    </DialogContent>
   );
 }

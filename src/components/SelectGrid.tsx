@@ -1,8 +1,9 @@
 import { SKUData } from "@/types/sku";
-import { useState } from "react";
 import SKUHelp from "./SKUHelp";
 import { MultiSelect } from "./ui/MultiSelect";
 import { fieldLabels } from "@/utils/fieldLabels";
+import { Dialog } from "./ui/dialog";
+import { DialogTrigger } from "@radix-ui/react-dialog";
 
 type FormValues = {
   conta: string;
@@ -27,8 +28,6 @@ export default function SelectGrid({
   setFormValues,
   skuData,
 }: SelectGridProps) {
-  const [isHelpOpen, setIsHelpOpen] = useState(false);
-
   return (
     <div className="bg-white rounded-lg shadow-md p-4">
       <div className="flex justify-between items-start gap-4 mb-4">
@@ -41,13 +40,17 @@ export default function SelectGrid({
             preços [47,97,147] irá criar: 1/$47, 3/$97, 6/$147.
           </p>
         </div>
-        <button
-          onClick={() => setIsHelpOpen(true)}
-          className="bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-full w-7 h-7 flex items-center justify-center font-semibold transition-colors flex-shrink-0"
-          title="Ajuda sobre a composição do SKU"
-        >
-          ?
-        </button>
+
+        <Dialog>
+          <DialogTrigger
+            className="bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-full w-7 h-7 flex items-center justify-center font-semibold transition-colors flex-shrink-0"
+            title="Ajuda sobre a composição do SKU"
+          >
+            ?
+          </DialogTrigger>
+
+          <SKUHelp formValues={formValues} skuData={skuData} />
+        </Dialog>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
@@ -83,13 +86,6 @@ export default function SelectGrid({
           );
         })}
       </div>
-
-      <SKUHelp
-        isOpen={isHelpOpen}
-        onClose={() => setIsHelpOpen(false)}
-        formValues={formValues}
-        skuData={skuData}
-      />
     </div>
   );
 }
