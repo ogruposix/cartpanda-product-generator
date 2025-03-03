@@ -9,6 +9,7 @@ import ProductConfig from "@/components/ProductConfig";
 import { generateSKU, decodeSKU } from "@/utils/skuUtils";
 import { saveToCSV } from "@/utils/csv";
 import { Alert } from "@/components/ui/Alert";
+import SKUDecoder from "@/components/SKUDecoder";
 
 export default function Home() {
   const [formValues, setFormValues] = useState({
@@ -181,9 +182,10 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-gray-100 p-8">
       <div className="max-w-[1920px] mx-auto">
-        <h1 className="text-3xl font-bold text-gray-800 mb-8">
-          Gerador de SKU
-        </h1>
+        <div className="flex items-center mb-8 gap-4">
+          <h1 className="text-3xl font-bold text-gray-800">Gerador de SKU</h1>
+          <SKUDecoder />
+        </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
           {/* Coluna da Esquerda - Formulário (1/3) */}
