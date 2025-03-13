@@ -39,7 +39,7 @@ export const skuData = {
     "GERAL",
   ],
   tipo_de_venda: ["CALLCENTER", "FRONT", "BACKREDIRECT", "UPSELL", "DOWNSELL"],
-  kit: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
+  kit: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "12", "16", "24"],
   preco: [
     "5",
     "19",
@@ -67,5 +67,8 @@ export const skuData = {
     "261",
     "294",
     "351",
+    "516",
+    "560",
+    "600",
   ],
 };
