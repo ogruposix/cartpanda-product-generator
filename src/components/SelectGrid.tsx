@@ -4,6 +4,7 @@ import { MultiSelect } from "./ui/MultiSelect";
 import { fieldLabels } from "@/utils/fieldLabels";
 import { Dialog } from "./ui/dialog";
 import { DialogTrigger } from "@radix-ui/react-dialog";
+import { Button } from "./ui/button";
 
 type FormValues = {
   conta: string;
@@ -85,6 +86,26 @@ export default function SelectGrid({
             />
           );
         })}
+      </div>
+
+      <div className="flex justify-end mt-4">
+        <Button
+          onClick={() => {
+            setFormValues({
+              conta: "",
+              squad: "",
+              produto: "",
+              vsl: [],
+              rede: [],
+              tipo_de_venda: "",
+              kit: [],
+              preco: [],
+            });
+          }}
+          variant="destructive"
+        >
+          Limpar
+        </Button>
       </div>
     </div>
   );

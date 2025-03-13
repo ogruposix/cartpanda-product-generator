@@ -35,7 +35,7 @@ export function MultiSelect({
       ? selected.filter((v) => v !== value)
       : [...selected, value];
 
-    onChange(newSelected.length ? newSelected : [options[0].value]);
+    onChange(newSelected.length ? newSelected : []);
   };
 
   return (
@@ -59,7 +59,7 @@ export function MultiSelect({
         onClick={() => setIsOpen(!isOpen)}
         className="w-full min-h-[36px] px-2 py-1 border border-gray-300 rounded-md bg-white cursor-pointer flex flex-wrap gap-1.5 items-center overflow-x-auto"
       >
-        {selected.length > 0 ? (
+        {selected.length > 0 && selected[0] !== "" ? (
           selected.map((value) => (
             <span
               key={value}

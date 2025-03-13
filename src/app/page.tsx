@@ -16,11 +16,11 @@ export default function Home() {
     conta: "1",
     squad: "1",
     produto: "1",
-    vsl: ["0"],
-    rede: ["1"],
-    tipo_de_venda: "1",
-    kit: ["1"],
-    preco: ["5"],
+    vsl: ["1"],
+    rede: ["2", "3", "4", "5", "7", "8"],
+    tipo_de_venda: "2",
+    kit: ["1", "3", "6"],
+    preco: ["89", "177", "294"],
   });
 
   // const [generatedSKU, setGeneratedSKU] = useState("");
